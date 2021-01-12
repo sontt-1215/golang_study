@@ -21,6 +21,8 @@ var (
     authController controller.AuthController = controller.NewAuthController(authService, jwtService)
     userController controller.UserController = controller.NewUserController(userService, jwtService)
     bookController controller.BookController = controller.NewBookController(bookService, jwtService)
+
+    graphController controller.GraphController = controller.NewGraphController(graphService, jwtService)
 )
 
 func InitRouter() *gin.Engine {
@@ -45,6 +47,11 @@ func InitRouter() *gin.Engine {
         bookRoutes.GET("/:id", bookController.FindByID)
         bookRoutes.PUT("/:id", bookController.Update)
         bookRoutes.DELETE("/:id", bookController.Delete)
+    }
+
+    graphRoutes := routes.Group("api/graph", middleware.AuthorizeJWT(jwtService))
+    {
+        graphRoutes.GET("/", graphController.Calendar)
     }
 
     return routes
