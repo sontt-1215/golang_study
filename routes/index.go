@@ -24,7 +24,6 @@ var (
 )
 
 func InitRouter() *gin.Engine {
-    defer config.CloseDatabaseConnection(db)
     routes := gin.Default()
 
     authRoutes := routes.Group("api/auth")
